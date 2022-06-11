@@ -1,0 +1,24 @@
+input {
+  font-size: 2rem;
+  background-color: #2d2d42;
+  border: 1px solid #2d2d42;
+  color: #fff;
+  margin: 0.5rem;
+  box-shadow: none;
+}
+input.time{
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  appearance: none;
+  border-radius: 0.25rem;
+}
+input[type="time"]::-webkit-calendar-picker-indicator{
+  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+}
+.calendar {
+  margin: 0.8rem 2rem;
+}
