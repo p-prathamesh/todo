@@ -11,7 +11,11 @@ import CalendarImg from "../../assets/calendar.png";
 import CalendarComponent from "../../components/Calendar";
 import { addTask, updateTask } from "../../redux/tasksSlice";
 
-function CreateTask() {
+import useDeviceDetect from "../../utils/browserDetectHook";
+
+const CreateTask = () => {
+  const { isMobile } = useDeviceDetect();
+
   const [selectedTime, setSelectedTime] = useState("now");
   const [taskName, setTaskName] = useState("");
   const [date, setDate] = useState(new Date());
@@ -34,18 +38,16 @@ function CreateTask() {
         return id === searchId;
       });
       setData(editRecord);
-       
     }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (data.length > 0) {
       handleChange(data[0].name);
       handleGetTime(data[0].createdTime);
       handleDate(new Date(data[0].createdDate));
     }
-  }, [data])
-  
+  }, [data]);
 
   const handleChange = useCallback(
     (val) => {
@@ -114,46 +116,55 @@ function CreateTask() {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12 text-white">
-          <NavBar userName="Mike" />
+    <>
+      {isMobile ? (
+        <div className="container">
+          <div className="row">
+            <div className="col-12 text-white">
+              <NavBar userName="Mike" />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 text-white">
+              <Input
+                fetchInput={handleChange}
+                value={taskName}
+                placeholder="Enter task name"
+              />
+            </div>
+          </div>
+          <div className="row mt-2">
+            <div className="col-8 text-white">
+              <TimeInput getTime={handleGetTime} time={selectedTime} />
+            </div>
+            <div className="col-3 text-white">
+              <img
+                src={CalendarImg}
+                alt="Calendar"
+                width={30}
+                height={30}
+                className="calendar"
+              />
+            </div>
+          </div>
+          <div className="row mt-2">
+            <div className="col-12 text-white">
+              <CalendarComponent setDate={handleDate} selected={date} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 text-white text-center">
+              <AddButton
+                addToStore={searchId ? onUpdate : onSubmit}
+                cta={cta}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-12 text-white">
-          <Input
-            fetchInput={handleChange}
-            value={taskName}
-            placeholder="Enter task name"
-          />
-        </div>
-      </div>
-      <div className="row mt-2">
-        <div className="col-8 text-white">
-          <TimeInput getTime={handleGetTime} time={selectedTime} />
-        </div>
-        <div className="col-3 text-white">
-          <img
-            src={CalendarImg}
-            alt="Calendar"
-            width={30}
-            height={30}
-            className="calendar"
-          />
-        </div>
-      </div>
-      <div className="row mt-2">
-        <div className="col-12 text-white">
-          <CalendarComponent setDate={handleDate} selected={date} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-12 text-white text-center">
-          <AddButton addToStore={searchId ? onUpdate : onSubmit} cta={cta} />
-        </div>
-      </div>
-    </div>
+      ) : (
+        <h1 className="text-white notify">Please open in mobile</h1>
+      )}
+    </>
   );
 }
 

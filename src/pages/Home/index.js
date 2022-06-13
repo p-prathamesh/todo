@@ -8,9 +8,13 @@ import ListView from "../../components/ListView";
 import NavBar from "../../components/Navbar";
 import Input from "../../components/Input";
 
+import useDeviceDetect from "../../utils/browserDetectHook";
+
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {isMobile} = useDeviceDetect();
 
   const todos = useSelector((state) => {
     return state.tasks;
@@ -55,7 +59,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="container">
+      {
+        isMobile ? <div className="container">
         <div className="row">
           <div className="col-12 text-white">
             <NavBar userName="Mike" />
@@ -94,6 +99,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+      : <h1 className="text-white notify">Please open in mobile</h1>
+      }
     </>
   );
 };

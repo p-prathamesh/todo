@@ -29,7 +29,6 @@ export const tasksSlice = createSlice({
 });
 
 const updateObj = (list, id, payload) => {
-
   const updatedList = list;
   const val = payload,
     index = updatedList.findIndex(({ name, id }) => id === val.id);
@@ -42,6 +41,7 @@ const updateObj = (list, id, payload) => {
 
   return updatedList;
 };
-export const { addTask, deleteTask, completeTask, updateTask } = tasksSlice.actions;
+export const { addTask, deleteTask, completeTask, updateTask } =
+  tasksSlice.actions;
 
 export default tasksSlice.reducer;
